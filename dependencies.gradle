@@ -1,0 +1,67 @@
+ext.versions = [
+        // dependency versions
+        'slf4j'         : '1.7.30',
+
+        // test dependency versions
+        'assertj'       : '3.16.1',
+        'jupiter'       : '5.6.2',
+        'mockito'       : '1.10.19'
+]
+
+ext.libs = [
+        /**
+         * The Simple Logging Facade for Java (SLF4J) serves as a simple facade or abstraction for various logging
+         * frameworks (e.g. java.util.logging, logback, log4j) allowing the end user to plug in the desired logging
+         * framework at deployment time.
+         *
+         * @link http://www.slf4j.org
+         * @license MIT License [http://www.slf4j.org/license.html]
+         */
+        'slf4j'        : "org.slf4j:slf4j-api:$rootProject.versions.slf4j",
+]
+
+ext.testLibs = [
+        /**
+         * Dropwizard is a Java framework for developing ops-friendly, high-performance, RESTful web services.
+         *
+         * @link https://www.dropwizard.io/en/latest/
+         * @license Apache License 2.0 [https://github.com/dropwizard/dropwizard/blob/master/LICENSE]
+         */
+        'dw_test'       : "io.dropwizard:dropwizard-testing:$rootProject.versions.dropwizard",
+        /**
+         * Framework to write repeatable tests.
+         *
+         * @link https://github.com/junit-team/junit5
+         * @license Eclipse Public License 1.0 [https://github.com/junit-team/junit5/blob/master/LICENSE-notice.md]
+         */
+        'jupiter'       : "org.junit.jupiter:junit-jupiter:$rootProject.versions.jupiter",
+        'jupiter_api'   : "org.junit.jupiter:junit-jupiter-api:$rootProject.versions.jupiter",
+        'jupiter_engine': "org.junit.jupiter:junit-jupiter-engine:$rootProject.versions.jupiter",
+
+        /**
+         * Tasty mocking framework for unit tests.
+         *
+         * @link http://site.mockito.org/
+         * @license MIT License [https://github.com/mockito/mockito/blob/master/LICENSE]
+         */
+        'mockito'       : "org.mockito:mockito-all:$rootProject.versions.mockito",
+
+        /**
+         * AssertJ is a java library providing a rich set of assertions, truly helpful error messages, improves test code
+         * readability and is designed to be super easy to use within your favorite IDE.
+         *
+         * @link https://assertj.github.io/doc/
+         * @license Apache License 2.0 [https://github.com/assertj/doc/blob/master/LICENSE]
+         */
+        'assertj'       : "org.assertj:assertj-core:$rootProject.versions.assertj",
+
+        /**
+         * The Simple Logging Facade for Java (SLF4J) serves as a simple facade or abstraction for various logging
+         * frameworks (e.g. java.util.logging, logback, log4j) allowing the end user to plug in the desired logging
+         * framework at deployment time.
+         *
+         * @link http://www.slf4j.org
+         * @license MIT License [http://www.slf4j.org/license.html]
+         */
+        'slf4j_simple' : "org.slf4j:slf4j-simple:$rootProject.versions.slf4j",
+]

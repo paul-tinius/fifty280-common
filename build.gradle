@@ -1,0 +1,57 @@
+plugins {
+    id 'java'
+    id 'maven'
+
+    id 'io.wusa.semver-git-plugin' version '2.0.2'
+    id 'com.github.spotbugs' version '4.2.0'
+    id 'com.diffplug.gradle.spotless' version '3.30.0'
+    id 'com.adarshr.test-logger' version '2.0.0'
+    id 'com.jfrog.bintray' version '1.8.5'
+}
+
+apply from: rootProject.file('dependencies.gradle')
+
+apply from: rootProject.file('gradle/idea.gradle')
+
+apply from: rootProject.file('gradle/wrapper.gradle')
+apply from: rootProject.file('gradle/semver.gradle')
+apply from: rootProject.file('gradle/jacoco.gradle')
+apply from: rootProject.file('gradle/jar-manifest.gradle')
+apply from: rootProject.file('gradle/spotbugs.gradle')
+apply from: rootProject.file('gradle/spotless.gradle')
+apply from: rootProject.file('gradle/test.gradle')
+apply from: rootProject.file('gradle/bintray.gradle')
+
+version = semver.info
+
+sourceCompatibility = "14"
+targetCompatibility = "14"
+
+compileJava {
+    options.compilerArgs += ["-XDignore.symbol.file", "-Xdoclint:none", "-Xlint:none", "-nowarn"]
+    options.fork = true
+    options.forkOptions.executable = 'javac'
+
+    println 'Compiler args: ' + options.compilerArgs
+}
+
+compileTestJava {
+    options.compilerArgs += ["-XDignore.symbol.file", "-Xdoclint:none", "-Xlint:none", "-nowarn"]
+    options.fork = true
+    options.forkOptions.executable = 'javac'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation(libs.slf4j)
+
+    testImplementation(testLibs.assertj)
+    testImplementation(testLibs.jupiter)
+    testImplementation(testLibs.jupiter_api)
+    testImplementation(testLibs.jupiter_engine)
+    testImplementation(testLibs.mockito)
+    testImplementation(testLibs.slf4j_simple)
+}

@@ -1,0 +1,92 @@
+import java.text.SimpleDateFormat
+
+allprojects { prj ->
+    plugins.withType(JavaPlugin) {
+        System.setProperty("build.timestamp", new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date()))
+        println "Build Timestamp: ${System.properties['build.timestamp']}"
+
+        tasks.withType(AbstractArchiveTask) {
+            preserveFileTimestamps = false
+            reproducibleFileOrder = true
+        }
+
+        jar {
+            archivesBaseName = "${project.properties['archivesBaseName']}"
+
+            from(configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }) {
+                exclude "META-INF/*.SF"
+                exclude "META-INF/*.DSA"
+                exclude "META-INF/*.RSA"
+            }
+
+            manifest {
+                attributes(
+                        'Created-By': "Gradle ${gradle.gradleVersion}",
+                        'Build-Jdk': "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
+                        'Build-OS': "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}",
+                        'Build-Timestamp': "${System.properties['build.timestamp']}",
+                        'Build-Version': getSemVerCommit(),
+                        'X-Source-Version': "${project.properties['sourceCompatibility']}",
+                        'X-Target-Version': "${project.properties['targetCompatibility']}",
+                        'Implementation-Title': "${project.properties['implementation_title']}",
+                        'Implementation-Version': getSemVer(),
+                        'Implementation-Vendor': "${project.properties['implementation_vendor']}",
+                        'Specification-Title': "${project.properties['specification_title']}",
+                        'Specification-Version': "${System.properties['java.vm.version']}",
+                        'Specification-Vendor': "${System.properties['java.vendor']}"
+                )
+            }
+        }
+
+        javadoc {
+            options.addStringOption('-Xdoclint:none')
+            options {
+                encoding "UTF-8"
+                docEncoding "UTF-8"
+                charSet 'UTF-8'
+                author false
+                version true
+                title "${project.properties['specification_title']}"
+                failOnError false
+            }
+        }
+
+        // create one jar for the javadoc
+        task javadocJar(type: Jar, dependsOn: javadoc) {
+            archiveClassifier = 'javadoc'
+            from javadoc.destinationDir
+
+            manifest {
+                attributes(
+                        'Created-By': "Gradle ${gradle.gradleVersion}",
+                        'Build-Jdk': "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
+                        'Build-Timestamp': "${System.properties['build.timestamp']}",
+                        'Build-Revision': getSemVerCommit(),
+                        'Implementation-Version': getSemVer()
+                )
+            }
+        }
+
+        // create one jar for the source files
+        task sourcesJar(type: Jar, dependsOn: classes) {
+            archiveClassifier = 'sources'
+            from sourceSets.main.allSource
+
+            manifest {
+                attributes(
+                        'Created-By': "Gradle ${gradle.gradleVersion}",
+                        'Build-Jdk': "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
+                        'Build-Timestamp': "${System.properties['build.timestamp']}",
+                        'Build-Revision': getSemVerCommit(),
+                        'Implementation-Version': getSemVer()
+                )
+            }
+        }
+
+        artifacts {
+            archives jar
+            archives javadocJar
+            archives sourcesJar
+        }
+    }
+}

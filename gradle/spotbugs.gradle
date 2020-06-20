@@ -1,0 +1,21 @@
+allprojects { prj ->
+    plugins.withType(JavaPlugin) {
+        spotbugs {
+            toolVersion = '4.0.3'
+
+            ignoreFailures = true
+            effort = "max"
+            reportLevel = "high"
+            reportsDir = file("$project.buildDir/reports/spotbug")
+        }
+
+        spotbugsMain {
+            reports {
+                html {
+                    enabled = true
+                    stylesheet = 'fancy-hist.xsl'
+                }
+            }
+        }
+    }
+}
