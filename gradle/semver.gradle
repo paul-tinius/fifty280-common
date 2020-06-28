@@ -1,34 +1,17 @@
-
-allprojects { prj ->
-    plugins.withType(JavaPlugin) {
-        semver {
-            semver {
-                snapshotSuffix = "SNAPSHOT"
-                dirtyMarker = "dirty"
-                branches {
-                    branch {
-                        regex = ".+"
-                        incrementer = "MINOR_INCREMENTER"
-                        formatter = { "${semver.info.version.major}.${semver.info.version.minor}.${semver.info.version.patch}+build.${semver.info.count}" }
-                    }
-                }
-            }
-        }
-
-        ext.getSemVer = {
-            try {
-                return semver.info
-            } catch(Exception e) {
-                return "dev-version"
-            }
-        }
-
-        ext.getSemVerCommit = {
-            try {
-                return semver.info.commit
-            } catch(Exception e) {
-                return "dev-uncommitted"
-            }
+semver {
+    snapshotSuffix = "SNAPSHOT"
+    dirtyMarker = "dirty"
+    branches {
+        branch {
+            regex = ".+"
+            incrementer = "MINOR_INCREMENTER"
+            formatter = { "${semver.info.version.major}.${semver.info.version.minor}.${semver.info.version.patch}+build.${semver.info.count}" }
         }
     }
+
+    System.setProperty("implementation.version", (String) semver.info.commit)
+    println "Implementation version: ${System.properties['implementation.version']}"
+
+    System.setProperty("build.version", (String) semver.info)
+    println "Build version: ${System.properties['build.version']}"
 }

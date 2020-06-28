@@ -1,49 +1,45 @@
-allprojects { prj ->
-    plugins.withType(JavaPlugin) {
-        prj.apply plugin: 'jacoco'
+apply plugin: 'jacoco'
 
-        jacoco {
-            toolVersion = "0.8.5"
-        }
+jacoco {
+    toolVersion = "0.8.5"
+}
 
-        jacocoTestCoverageVerification {
-            violationRules {
-                rule {
-                    limit {
-                        minimum = 0.5
-                    }
-                }
-
-                rule {
-                    enabled = false
-                    element = 'CLASS'
-                    includes = ['org.gradle.*']
-
-                    limit {
-                        counter = 'LINE'
-                        value = 'TOTALCOUNT'
-                        maximum = 0.3
-                    }
-                }
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.5
             }
         }
 
-        jacocoTestReport {
-            reports {
-                html.enabled = true
-            }
-            dependsOn test // tests are required to run before generating the report
-        }
+        rule {
+            enabled = false
+            element = 'CLASS'
+            includes = ['org.gradle.*']
 
-        test {
-            jacoco {
-                includeNoLocationClasses = true
-                // https://github.com/gradle/gradle/issues/5184#issuecomment-391982009
-                excludes = ['jdk.internal.*']
+            limit {
+                counter = 'LINE'
+                value = 'TOTALCOUNT'
+                maximum = 0.3
             }
         }
-
-        // report is always generated after tests run
-        tasks.test.finalizedBy jacocoTestReport
     }
 }
+
+jacocoTestReport {
+    reports {
+        html.enabled = true
+    }
+    dependsOn test // tests are required to run before generating the report
+}
+
+test {
+    jacoco {
+        includeNoLocationClasses = true
+        // https://github.com/gradle/gradle/issues/5184#issuecomment-391982009
+        excludes = ['jdk.internal.*']
+    }
+}
+
+// report is always generated after tests run
+tasks.test.finalizedBy jacocoTestReport

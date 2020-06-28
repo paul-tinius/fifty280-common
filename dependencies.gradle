@@ -1,5 +1,6 @@
 ext.versions = [
         // dependency versions
+        'jakarta'       : '2.1.6',
         'slf4j'         : '1.7.30',
 
         // test dependency versions
@@ -18,6 +19,18 @@ ext.libs = [
          * @license MIT License [http://www.slf4j.org/license.html]
          */
         'slf4j'        : "org.slf4j:slf4j-api:$rootProject.versions.slf4j",
+
+        /**
+         * Jakarta RESTful Web Services provides a specification document, TCK and foundational API to develop web
+         * services following the Representational State Transfer (REST) architectural pattern.
+         *
+         * JAX-RS: Java API for RESTful Web Services (JAX-RS) is a Java programming language API spec that provides
+         * support in creating web services according to the Representational State Transfer (REST) architectural pattern.
+         *
+         * @link https://projects.eclipse.org/projects/ee4j.jaxrs
+         * @license Eclipse Public License 2.0 [https://projects.eclipse.org/license/epl-2.0]
+         */
+        'wsrsapi'       : "jakarta.ws.rs:jakarta.ws.rs-api:$rootProject.versions.jakarta"
 ]
 
 ext.testLibs = [
@@ -28,6 +41,7 @@ ext.testLibs = [
          * @license Apache License 2.0 [https://github.com/dropwizard/dropwizard/blob/master/LICENSE]
          */
         'dw_test'       : "io.dropwizard:dropwizard-testing:$rootProject.versions.dropwizard",
+
         /**
          * Framework to write repeatable tests.
          *

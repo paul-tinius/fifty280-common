@@ -1,52 +1,46 @@
-allprojects { prj ->
-    plugins.withType(JavaPlugin) {
-        test {
-            /*
-             * the following environment variable are used within the
-             * 'io.github.fifty280.common.util.Fifty280UtilUnitTest'.
-             */
-            environment "DUMMY_ENV_VAR",  "10"
+plugins.withType(JavaPlugin) {
+    test {
+        /*
+     * the following environment variable are used within the
+     * 'io.github.fifty280.common.util.Fifty280UtilUnitTest'.
+     */
+        environment "DUMMY_ENV_VAR", "10"
 
-            useJUnitPlatform()
+        useJUnitPlatform()
 
-//            filter {
-//                includeTestsMatching "*UnitTest"
-//            }
-
-            testlogger {
-                theme 'standard'
-                showExceptions true
-                showStackTraces true
-                showFullStackTraces false
-                showCauses true
-                slowThreshold 2000
-                showSummary true
-                showSimpleNames false
-                showPassed true
-                showSkipped true
-                showFailed true
-                showStandardStreams false
-                showPassedStandardStreams true
-                showSkippedStandardStreams true
-                showFailedStandardStreams true
-            }
-
-            afterSuite { desc, result ->
-                if (!desc.parent) { // will match the outermost suite
-                    def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
-                    def startItem = '|  ', endItem = '  |'
-                    def repeatLength = startItem.length() + output.length() + endItem.length()
-                    println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
-                }
-            }
+        testlogger {
+            theme 'standard'
+            showExceptions true
+            showStackTraces true
+            showFullStackTraces false
+            showCauses true
+            slowThreshold 2000
+            showSummary true
+            showSimpleNames false
+            showPassed true
+            showSkipped true
+            showFailed true
+            showStandardStreams false
+            showPassedStandardStreams true
+            showSkippedStandardStreams true
+            showFailedStandardStreams true
         }
 
-        tasks.spotbugsTest {
-            reports {
-                html {
-                    enabled = true
-                    stylesheet = 'fancy-hist.xsl'
-                }
+        afterSuite { desc, result ->
+            if (!desc.parent) { // will match the outermost suite
+                def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+                def startItem = '|  ', endItem = '  |'
+                def repeatLength = startItem.length() + output.length() + endItem.length()
+                println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
+            }
+        }
+    }
+
+    tasks.spotbugsTest {
+        reports {
+            html {
+                enabled = true
+                stylesheet = 'fancy-hist.xsl'
             }
         }
     }

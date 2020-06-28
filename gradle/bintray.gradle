@@ -1,24 +1,20 @@
-allprojects { prj ->
-    plugins.withType(JavaPlugin) {
-        prj.apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.jfrog.bintray'
 
-        bintray {
-            user = project.hasProperty('bintray_user_name') ? project.property('bintray_user_name') : project.property('BINTRAY_USER')
-            key = project.hasProperty('bintray_api_key') ? project.property('bintray_api_key') : project.property('BINTRAY_KEY')
+bintray {
+    user = project.hasProperty('bintray_user_name') ? project.property('bintray_user_name') : project.property('BINTRAY_USER')
+    key = project.hasProperty('bintray_api_key') ? project.property('bintray_api_key') : project.property('BINTRAY_KEY')
 
-            dryRun = false
+    dryRun = false
 
-            pkg {
-                repo = 'maven'
-                name = ""
-                configurations = ['archives']
-                desc = ""
-                websiteUrl = ""
-                vcsUrl = "${project.properties['project_url']}"
-                licenses = ["Apache-2.0"]
-                publish = true
-                publicDownloadNumbers = true
-            }
-        }
+    pkg {
+        repo = 'maven'
+        name = "Bintray"
+        configurations = ['archives']
+        desc = "${project.properties['project_desc']}"
+        websiteUrl = "${project.properties['project_website_url']}"
+        vcsUrl = "${project.properties['project_url']}"
+        licenses = "${project.properties['project_license']}"
+        publish = true
+        publicDownloadNumbers = true
     }
 }

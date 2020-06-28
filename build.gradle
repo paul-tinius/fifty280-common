@@ -1,8 +1,8 @@
 plugins {
-    id 'java'
+    id 'java-library'
     id 'maven'
 
-    id 'io.wusa.semver-git-plugin' version '2.0.2'
+    id 'io.wusa.semver-git-plugin' version '2.2.2'
     id 'com.github.spotbugs' version '4.2.0'
     id 'com.diffplug.gradle.spotless' version '3.30.0'
     id 'com.adarshr.test-logger' version '2.0.0'
@@ -14,6 +14,7 @@ apply from: rootProject.file('dependencies.gradle')
 apply from: rootProject.file('gradle/idea.gradle')
 
 apply from: rootProject.file('gradle/wrapper.gradle')
+
 apply from: rootProject.file('gradle/semver.gradle')
 apply from: rootProject.file('gradle/jacoco.gradle')
 apply from: rootProject.file('gradle/jar-manifest.gradle')
@@ -22,7 +23,7 @@ apply from: rootProject.file('gradle/spotless.gradle')
 apply from: rootProject.file('gradle/test.gradle')
 apply from: rootProject.file('gradle/bintray.gradle')
 
-version = semver.info
+version = "${project.properties['build.version']}"
 
 sourceCompatibility = "14"
 targetCompatibility = "14"
@@ -31,6 +32,7 @@ compileJava {
     options.compilerArgs += ["-XDignore.symbol.file", "-Xdoclint:none", "-Xlint:none", "-nowarn"]
     options.fork = true
     options.forkOptions.executable = 'javac'
+    options.javaModuleVersion = project.version
 
     println 'Compiler args: ' + options.compilerArgs
 }
@@ -47,6 +49,7 @@ repositories {
 
 dependencies {
     implementation(libs.slf4j)
+    implementation(libs.wsrsapi)
 
     testImplementation(testLibs.assertj)
     testImplementation(testLibs.jupiter)

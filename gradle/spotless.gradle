@@ -1,28 +1,24 @@
-allprojects { prj ->
-    plugins.withType(JavaPlugin) {
-        spotless {
-            java {
-                // License header file
-                licenseHeaderFile 'config/spotless/spotless.license.java'
+spotless {
+    java {
+        // License header file
+        licenseHeaderFile 'config/spotless/spotless.license.java'
 
-                // A sequence of package names
-                importOrder 'java', 'javax', 'org', 'com'
+        // A sequence of package names
+        importOrder 'java', 'javax', 'org', 'com'
 
-                // removes any unused imports
-                removeUnusedImports()
+        // removes any unused imports
+        removeUnusedImports()
 
-                endWithNewline()
-                lineEndings 'UNIX'
-            }
-
-            tasks.check.dependsOn tasks.spotlessCheck
-        }
-
-        task tidy() {
-            description "Applies formatters and cleanups to sources."
-            group "verification"
-
-            tasks.check.finalizedBy tasks.spotlessApply
-        }
+        endWithNewline()
+        lineEndings 'UNIX'
     }
+
+    tasks.check.dependsOn tasks.spotlessCheck
+}
+
+task tidy() {
+    description "Applies formatters and cleanups to sources."
+    group "verification"
+
+    tasks.check.finalizedBy tasks.spotlessApply
 }
