@@ -15,3 +15,12 @@ spotbugsMain {
         }
     }
 }
+
+spotbugsTest {
+    reports {
+        html {
+            enabled = true
+            stylesheet = 'fancy-hist.xsl'
+        }
+    }
+}

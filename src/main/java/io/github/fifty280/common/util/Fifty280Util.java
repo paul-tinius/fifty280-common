@@ -99,7 +99,8 @@ public class Fifty280Util
         }
         catch( IOException e )
         {
-            LogUtil.warnException( FAILURE_REASON, e, resourceKey, resourceFilename, defaultValue, e.getMessage() );
+            LogUtil.warnException( log, FAILURE_REASON, e, resourceKey, resourceFilename, defaultValue,
+                                   e.getMessage() );
 
             return defaultValue;
         }

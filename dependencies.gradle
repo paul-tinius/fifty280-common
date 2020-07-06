@@ -1,15 +1,35 @@
 ext.versions = [
         // dependency versions
-        'jakarta'       : '2.1.6',
-        'slf4j'         : '1.7.30',
+        'apache_lang3'   : '3.10',
+        'jakarta_ws_rs'  : '2.1.6',
+        'jakarta_servlet': '4.0.4',
+        'jersey_common'  : '2.31',
+        'slf4j'          : '1.7.30',
 
         // test dependency versions
-        'assertj'       : '3.16.1',
-        'jupiter'       : '5.6.2',
-        'mockito'       : '1.10.19'
+        'assertj'        : '3.16.1',
+        'jupiter'        : '5.6.2',
+        'mockito'        : '3.3.3',
 ]
 
 ext.libs = [
+        /**
+         * Apache Commons Lang, a package of Java utility classes for the classes that are in java.lang's hierarchy,
+         * or are considered to be so standard as to justify existence in java.lang.
+         *
+         * @link https://github.com/apache/commons-lang
+         * @license Apache License 2.0 [https://www.apache.org/licenses/LICENSE-2.0]
+         */
+        'apache_lang3': "org.apache.commons:commons-lang3:$rootProject.versions.apache_lang3",
+
+        /**
+         * Jakarta Servlet defines a server-side API for handling HTTP requests and responses.
+         *
+         * @link https://github.com/eclipse-ee4j/servlet-api
+         * @license Eclipse Public License 2.0 [https://projects.eclipse.org/license/epl-2.0]
+         */
+        'servlet_api' : "jakarta.servlet:jakarta.servlet-api:$rootProject.versions.jakarta_servlet",
+
         /**
          * The Simple Logging Facade for Java (SLF4J) serves as a simple facade or abstraction for various logging
          * frameworks (e.g. java.util.logging, logback, log4j) allowing the end user to plug in the desired logging
@@ -18,7 +38,7 @@ ext.libs = [
          * @link http://www.slf4j.org
          * @license MIT License [http://www.slf4j.org/license.html]
          */
-        'slf4j'        : "org.slf4j:slf4j-api:$rootProject.versions.slf4j",
+        'slf4j'       : "org.slf4j:slf4j-api:$rootProject.versions.slf4j",
 
         /**
          * Jakarta RESTful Web Services provides a specification document, TCK and foundational API to develop web
@@ -27,39 +47,13 @@ ext.libs = [
          * JAX-RS: Java API for RESTful Web Services (JAX-RS) is a Java programming language API spec that provides
          * support in creating web services according to the Representational State Transfer (REST) architectural pattern.
          *
-         * @link https://projects.eclipse.org/projects/ee4j.jaxrs
+         * @link https://github.com/eclipse-ee4j/jaxrs-api
          * @license Eclipse Public License 2.0 [https://projects.eclipse.org/license/epl-2.0]
          */
-        'wsrsapi'       : "jakarta.ws.rs:jakarta.ws.rs-api:$rootProject.versions.jakarta"
+        'wsrs_api'    : "jakarta.ws.rs:jakarta.ws.rs-api:$rootProject.versions.jakarta_ws_rs",
 ]
 
 ext.testLibs = [
-        /**
-         * Dropwizard is a Java framework for developing ops-friendly, high-performance, RESTful web services.
-         *
-         * @link https://www.dropwizard.io/en/latest/
-         * @license Apache License 2.0 [https://github.com/dropwizard/dropwizard/blob/master/LICENSE]
-         */
-        'dw_test'       : "io.dropwizard:dropwizard-testing:$rootProject.versions.dropwizard",
-
-        /**
-         * Framework to write repeatable tests.
-         *
-         * @link https://github.com/junit-team/junit5
-         * @license Eclipse Public License 1.0 [https://github.com/junit-team/junit5/blob/master/LICENSE-notice.md]
-         */
-        'jupiter'       : "org.junit.jupiter:junit-jupiter:$rootProject.versions.jupiter",
-        'jupiter_api'   : "org.junit.jupiter:junit-jupiter-api:$rootProject.versions.jupiter",
-        'jupiter_engine': "org.junit.jupiter:junit-jupiter-engine:$rootProject.versions.jupiter",
-
-        /**
-         * Tasty mocking framework for unit tests.
-         *
-         * @link http://site.mockito.org/
-         * @license MIT License [https://github.com/mockito/mockito/blob/master/LICENSE]
-         */
-        'mockito'       : "org.mockito:mockito-all:$rootProject.versions.mockito",
-
         /**
          * AssertJ is a java library providing a rich set of assertions, truly helpful error messages, improves test code
          * readability and is designed to be super easy to use within your favorite IDE.
@@ -67,7 +61,36 @@ ext.testLibs = [
          * @link https://assertj.github.io/doc/
          * @license Apache License 2.0 [https://github.com/assertj/doc/blob/master/LICENSE]
          */
-        'assertj'       : "org.assertj:assertj-core:$rootProject.versions.assertj",
+        'assertj'        : "org.assertj:assertj-core:$rootProject.versions.assertj",
+
+        /**
+         * Jersey core common packages
+         *
+         * @link https://github.com/eclipse-ee4j/jersey/tree/master/core-common
+         * @license Eclipse Public License 2.0 [https://github.com/eclipse-ee4j/jersey/blob/master/LICENSE.md]
+         */
+        'jersey_common'  : "org.glassfish.jersey.core:jersey-common:$rootProject.versions.jersey_common",
+
+        /**
+         * Framework to write repeatable tests.
+         *
+         * @link https://github.com/junit-team/junit5
+         * @license Eclipse Public License 1.0 [https://github.com/junit-team/junit5/blob/master/LICENSE-notice.md]
+         */
+        'jupiter'        : "org.junit.jupiter:junit-jupiter:$rootProject.versions.jupiter",
+        'jupiter_api'    : "org.junit.jupiter:junit-jupiter-api:$rootProject.versions.jupiter",
+        'jupiter_engine' : "org.junit.jupiter:junit-jupiter-engine:$rootProject.versions.jupiter",
+        'platform_runner': "org.junit.jupiter:junit-platform-runner:$rootProject.versions.jupiter",
+        'vintage_engine' : "org.junit.vintage:junit-vintage-engine:$rootProject.versions.jupiter",
+
+        /**
+         * Tasty mocking framework for unit tests.
+         *
+         * @link http://site.mockito.org/
+         * @license MIT License [https://github.com/mockito/mockito/blob/master/LICENSE]
+         */
+        'mockito'        : "org.mockito:mockito-core:$rootProject.versions.mockito",
+        'mockito_jupiter': "org.mockito:mockito-junit-jupiter:$rootProject.versions.mockito",
 
         /**
          * The Simple Logging Facade for Java (SLF4J) serves as a simple facade or abstraction for various logging
@@ -77,5 +100,5 @@ ext.testLibs = [
          * @link http://www.slf4j.org
          * @license MIT License [http://www.slf4j.org/license.html]
          */
-        'slf4j_simple' : "org.slf4j:slf4j-simple:$rootProject.versions.slf4j",
+        'slf4j_simple'   : "org.slf4j:slf4j-simple:$rootProject.versions.slf4j",
 ]

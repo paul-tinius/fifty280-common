@@ -1,9 +1,9 @@
 plugins.withType(JavaPlugin) {
     test {
         /*
-     * the following environment variable are used within the
-     * 'io.github.fifty280.common.util.Fifty280UtilUnitTest'.
-     */
+         * the following environment variable are used within the
+         * 'io.github.fifty280.common.util.Fifty280UtilUnitTest'.
+         */
         environment "DUMMY_ENV_VAR", "10"
 
         useJUnitPlatform()
@@ -32,15 +32,6 @@ plugins.withType(JavaPlugin) {
                 def startItem = '|  ', endItem = '  |'
                 def repeatLength = startItem.length() + output.length() + endItem.length()
                 println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
-            }
-        }
-    }
-
-    tasks.spotbugsTest {
-        reports {
-            html {
-                enabled = true
-                stylesheet = 'fancy-hist.xsl'
             }
         }
     }

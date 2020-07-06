@@ -1,15 +1,30 @@
+/**
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package io.github.fifty280.common.localization;
 
-import io.github.fifty280.common.util.LogUtil;
-import org.slf4j.Logger;
+import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.Enumeration;
+import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-import static org.slf4j.LoggerFactory.getLogger;
+import org.slf4j.Logger;
+
+import io.github.fifty280.common.util.LogUtil;
 
 public class Localizator
 {
@@ -17,17 +32,41 @@ public class Localizator
 
     private static final String KEY_FMT = "%s";
 
-    private static final String BUNDLE_NOT_FOUND = "locale.bundle.notfound";    // Bundle for missing localization.
-    private static final String KEY_NOT_FOUND = "locale.key.notfound";          // Key for missing localization.
+    private static final String BUNDLE_NOT_FOUND = "Localization resource \"%s\" not found!";
+    private static final String KEY_NOT_FOUND = "Localization string \"%s\" not found!";
 
-    private ResourceBundle resourceBundle = null;                               // Bundle containing the localization.
+    private static final String FILENAME_MUST_NOT_BE_NULL = "localization filename must not be null.";
+    private static final String LOCALE_MUST_NOT_BE_NULL = "locale must not be null.";
+    private static final String KEY_MUST_NOT_BE_NULL = "localization key must not be null.";
+
+    ResourceBundle resourceBundle = null;                               // Bundle containing the localization.
 
     private final String localizationFilename;
+    private final Locale locale;
 
-    public Localizator( final String localizationFilename)
+    public Localizator( final String localizationFilename )
     {
-        this.localizationFilename = Objects.requireNonNull( localizationFilename,
-                                                           "localization filename must not be null.");
+        this(localizationFilename, Locale.getDefault());
+    }
+
+    public Localizator( final String localizationFilename, final Locale locale )
+    {
+        this.localizationFilename = Objects.requireNonNull( localizationFilename, FILENAME_MUST_NOT_BE_NULL );
+        this.locale = Objects.requireNonNull( locale, LOCALE_MUST_NOT_BE_NULL );;
+    }
+
+    public String localize( final String key )
+    {
+        try
+        {
+            return getResourceBundle( ).getString( Objects.requireNonNull( key, KEY_MUST_NOT_BE_NULL ) );
+        }
+        catch( NullPointerException | MissingResourceException e )
+        {
+            final String s = String.format( KEY_NOT_FOUND, key );
+            log.warn( s );
+            return s;
+        }
     }
 
     private ResourceBundle getResourceBundle( )
@@ -40,39 +79,25 @@ public class Localizator
         return resourceBundle;
     }
 
-    public String localize( final String key )
+    private void reloadResourceBundle( )
     {
         try
         {
-            return getResourceBundle( ).getString( Objects.requireNonNull( key, "localization key must not be null.") );
-        }
-        catch( NullPointerException | MissingResourceException e )
-        {
-            final String s = String.format( localize( KEY_NOT_FOUND ), key );
-            log.warn( s );
-            return s;
-        }
-    }
-
-    private synchronized void reloadResourceBundle( )
-    {
-        try
-        {
-            this.resourceBundle = ResourceBundle.getBundle( this.localizationFilename );
+            this.resourceBundle = ResourceBundle.getBundle( this.localizationFilename, this.locale );
         }
         catch( MissingResourceException e )
         {
-            String msg = String.format( localize( BUNDLE_NOT_FOUND ), this.localizationFilename );
+            String msg = String.format( BUNDLE_NOT_FOUND, this.localizationFilename );
             if( this.resourceBundle == null )
             {
                 this.resourceBundle = new EmptyResourceBundle( );
             }
 
-            LogUtil.warnException( msg, e );
+            LogUtil.warnException( log, msg, e );
         }
     }
 
-    private static class EmptyResourceBundle
+    static class EmptyResourceBundle
             extends ResourceBundle
     {
         @Override

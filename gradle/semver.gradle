@@ -9,9 +9,17 @@ semver {
         }
     }
 
-    System.setProperty("implementation.version", (String) semver.info.commit)
+    try {
+        System.setProperty("implementation.version", (String) semver.info.commit)
+    } catch(Exception e) {
+        System.setProperty("implementation.version", "unspecified")
+    }
     println "Implementation version: ${System.properties['implementation.version']}"
 
-    System.setProperty("build.version", (String) semver.info)
+    try {
+        System.setProperty("build.version", (String) semver.info)
+    } catch(Exception e) {
+        System.setProperty("build.version", "unspecified")
+    }
     println "Build version: ${System.properties['build.version']}"
 }

@@ -48,13 +48,19 @@ repositories {
 }
 
 dependencies {
+    implementation(libs.apache_lang3)
+
     implementation(libs.slf4j)
-    implementation(libs.wsrsapi)
+
+    implementation(libs.servlet_api)
+    implementation(libs.wsrs_api)
 
     testImplementation(testLibs.assertj)
+    testImplementation(testLibs.jersey_common)
     testImplementation(testLibs.jupiter)
     testImplementation(testLibs.jupiter_api)
     testImplementation(testLibs.jupiter_engine)
     testImplementation(testLibs.mockito)
+    testImplementation(testLibs.mockito_jupiter)
     testImplementation(testLibs.slf4j_simple)
 }
