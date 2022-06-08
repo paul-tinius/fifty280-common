@@ -25,8 +25,8 @@ apply from: rootProject.file('gradle/bintray.gradle')
 
 version = "${project.properties['build.version']}"
 
-sourceCompatibility = "14"
-targetCompatibility = "14"
+sourceCompatibility = "11"
+targetCompatibility = "11"
 
 compileJava {
     options.compilerArgs += ["-XDignore.symbol.file", "-Xdoclint:none", "-Xlint:none", "-nowarn"]
