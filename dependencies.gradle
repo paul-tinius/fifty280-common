@@ -3,7 +3,7 @@ ext.versions = [
         'apache_lang3'   : '3.10',
         'jakarta_ws_rs'  : '2.1.6',
         'jakarta_servlet': '4.0.4',
-        'jersey_common'  : '2.31',
+        'jersey_common'  : '2.34',
         'slf4j'          : '1.7.30',
 
         // test dependency versions
